@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>AZBI Coffee — Google Play Feature Graphic</title>
+<style>
+  /* Brand fonts are extracted from the AZBI brandbook at build time (see scripts/build.py).
+     Galdern has no Cyrillic, so per the brandbook Russian copy is set in Helvetica Neue Cyr;
+     Nimbus Sans Bold (URW Helvetica) stands in for the bold Cyrillic weight the PDF doesn't embed. */
+  @font-face { font-family: "Galdern"; font-weight: 700; src: url(".fonts/AzbiGaldernBold.ttf"); }
+  @font-face { font-family: "Galdern"; font-weight: 500; src: url(".fonts/AzbiGaldernMedium.ttf"); }
+  @font-face { font-family: "Helvetica Neue Cyr"; font-weight: 400; src: url(".fonts/AzbiHelvCyrRoman.ttf"); }
+  @font-face { font-family: "Helvetica Neue Cyr"; font-weight: 700; src: local("Nimbus Sans Bold"), local("NimbusSans-Bold"); }
+
+  :root {
+    --azbi-green: #11703b;
+    --azbi-green-deep: #0c5a2f;
+    --azbi-yellow: #fcb95c;
+    --azbi-cream: #fffbed;
+    --azbi-brown: #603314;
+    --safe-x: 112px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1024px; height: 500px; overflow: hidden; background: var(--azbi-green); }
+
+  .canvas {
+    position: relative; width: 1024px; height: 500px; overflow: hidden;
+    background:
+      radial-gradient(520px 420px at 736px 262px, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0) 70%),
+      radial-gradient(900px 520px at 0px 500px, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0) 70%),
+      var(--azbi-green);
+    color: #fff;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- copy (left) ---------- */
+  .copy { position: absolute; left: var(--safe-x); top: 0; bottom: 0; width: 470px; }
+  .headline { position: absolute; left: 0; top: 128px; }
+  .headline .line { display: block; white-space: nowrap; }
+
+  .headline.ru { font-family: "Helvetica Neue Cyr", "Nimbus Sans"; font-weight: 700; font-size: 51px; line-height: 59px; letter-spacing: -0.5px; }
+  .headline.uz { font-family: "Galdern"; font-weight: 700; font-size: 54px; line-height: 60px; letter-spacing: 0; }
+
+  /* Brand "shape writing": the logo's steam sits centred over one letter, resting on the x-height. */
+  .steam-host { position: relative; display: inline-block; }
+  .steam-host::before {
+    content: ""; position: absolute; left: 50%; bottom: 0.52em;
+    width: 0.29em; height: 0.34em; transform: translateX(-50%);
+    background: url("assets/steam.svg") center / contain no-repeat;
+  }
+  .headline.ru .steam-host::before { bottom: 0.56em; }
+
+  .sub { position: absolute; left: 0; top: 268px; white-space: nowrap; color: var(--azbi-cream); opacity: 0.92; }
+  .sub.uz { font-family: "Galdern"; font-weight: 500; font-size: 24px; letter-spacing: 0.1px; }
+  .sub.ru { font-family: "Helvetica Neue Cyr", "Nimbus Sans"; font-weight: 400; font-size: 25px; }
+
+  .brandline { position: absolute; left: 0; bottom: 78px; display: flex; align-items: flex-end; gap: 22px; }
+  .brandline .logo { height: 36px; display: block; }
+
+  /* ---------- visual (right) ---------- */
+  /* Brand identifying element ("Brend tanituvchi elementi"): the cup dips into the organic ring —
+     top half of the ring behind the cup, bottom half in front. Proportions follow brandbook p.20. */
+  .ring-box { position: absolute; left: 566px; top: 116px; width: 340px; height: 306px; }
+  .ring-half { position: absolute; inset: 0; background: center / 100% 100% no-repeat; }
+  .ring-top { background-image: url("assets/ring-top-white.svg"); z-index: 1; }
+  .ring-bottom { background-image: url("assets/ring-bottom-white.svg"); z-index: 3; }
+  .cup {
+    position: absolute; z-index: 2; left: 15.6%; top: -9.9%; width: 69.3%;
+    filter: drop-shadow(0 10px 18px rgba(0, 25, 10, 0.35));
+  }
+  .pill {
+    position: absolute; z-index: 4; left: 552px; top: 84px; transform: rotate(-4deg);
+    padding: 9px 18px 10px; border-radius: 999px;
+    background: var(--azbi-cream); color: var(--azbi-green);
+    font-size: 21px; line-height: 1; white-space: nowrap;
+    box-shadow: 0 6px 16px rgba(0, 25, 10, 0.25);
+  }
+  .pill.uz { font-family: "Galdern"; font-weight: 700; }
+  .pill.ru { font-family: "Helvetica Neue Cyr", "Nimbus Sans"; font-weight: 700; letter-spacing: -0.2px; }
+
+  /* ---------- review overlay (?guides=1) ---------- */
+  .guides { display: none; position: absolute; inset: 0; pointer-events: none; }
+  .guides.on { display: block; }
+  .guides .crop { position: absolute; background: rgba(255, 40, 80, 0.28); }
+  .guides .safe { position: absolute; left: 96px; right: 96px; top: 56px; bottom: 56px; outline: 2px dashed #ff3b6b; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="copy">
+    <h1 class="headline" id="headline"></h1>
+    <p class="sub" id="sub"></p>
+    <div class="brandline">
+      <img class="logo" src="assets/logo_azbi_coffee.svg" alt="azbi coffee">
+    </div>
+  </div>
+
+  <div class="ring-box">
+    <div class="ring-half ring-top"></div>
+    <img class="cup" src="assets/cup.png" alt="">
+    <div class="ring-half ring-bottom"></div>
+  </div>
+  <div class="pill" id="pill"></div>
+
+  <div class="guides" id="guides">
+    <!-- Play storefront card shows ~1.77:1, i.e. ~68px cut from each side at 1024 scale -->
+    <div class="crop" style="left:0;top:0;bottom:0;width:68px"></div>
+    <div class="crop" style="right:0;top:0;bottom:0;width:68px"></div>
+    <div class="safe"></div>
+  </div>
+</div>
+
+<script>
+  // Copy comes verbatim from the brandbook: slogan page ("Shior") and the ad-banner page ("Reklama banneri").
+  const COPY = {
+    ru: {
+      headline: ['Ароматный к<span class="steam-host">о</span>фе', 'в один миг'],
+      sub: 'Bir zumda xushbo‘y qahva',
+      subLang: 'uz',
+      pill: 'попробуйте',
+    },
+    uz: {
+      headline: ['Bir zumda', 'xushbo‘y qah<span class="steam-host">v</span>a'],
+      sub: 'Ароматный кофе — в один миг',
+      subLang: 'ru',
+      pill: 'tatib ko‘ring',
+    },
+  };
+  const params = new URLSearchParams(location.search);
+  const v = COPY[params.get('v')] ? params.get('v') : 'ru';
+  const c = COPY[v];
+  document.documentElement.lang = v;
+  const h = document.getElementById('headline');
+  h.classList.add(v);
+  h.innerHTML = c.headline.map((l) => `<span class="line">${l}</span>`).join('');
+  const s = document.getElementById('sub');
+  s.classList.add(c.subLang);
+  s.textContent = c.sub;
+  const p = document.getElementById('pill');
+  p.classList.add(v);
+  p.textContent = c.pill;
+  if (params.get('guides') === '1') document.getElementById('guides').classList.add('on');
+</script>
+</body>
+</html>

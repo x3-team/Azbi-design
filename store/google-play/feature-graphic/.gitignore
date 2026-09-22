@@ -1,0 +1,3 @@
+# Brand fonts and brandbook are licensed to AZBI and are fetched/extracted by scripts/build.py
+src/.fonts/
+.cache/
